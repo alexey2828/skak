@@ -7,4 +7,6 @@ export enum URL_PARAMS {
   DB_EDIT = '/db-edit.php',
   DB_USER = '/db-users.php',
   DB_EDIT_STATE = '/db-edit-state.php',
+  DB_ADD_INCOMING_CONTROL_122 = '/db-add-incoming-control-122.php',
+  DB_GET_WATER_TEMPERATURE = '/waterTemperatureGet.php',
 }

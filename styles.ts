@@ -36,6 +36,7 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
     width: '100%',
     zIndex: 2,
+    color: 'white',
   },
   messageText: {
     color: 'white',
@@ -98,5 +99,18 @@ export const styles = StyleSheet.create({
   value: {
     fontSize: 12,
     color: 'white',
+  },
+  focusedInput: {
+    borderColor: 'green',  // для зеленого цвета
+    borderWidth: 2,
+    borderRadius: 10,
+  },
+  title: {
+    // ваши стили для title
+  },
+  focusedTitle: {
+    borderColor: 'orange',  // для оранжевого цвета
+    borderWidth: 2,
+    borderRadius: 10,
   },
 });

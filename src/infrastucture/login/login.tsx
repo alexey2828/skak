@@ -1,6 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, TextInput, Image} from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  TextInput,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import {IndexStyle} from '../../../public/styles/index.style';
 import {useNavigation} from '@react-navigation/native';
 import {AsyncStorage} from 'react-native';
@@ -8,7 +15,7 @@ import {URLS} from '../../const/urls';
 import {URL_PARAMS} from '../../const/url-params';
 import {styles} from '../../../styles';
 import {ROUTES} from '../../const/routes';
-
+import InternetConnectionComponent from '../internet-connection/internet-connection';
 const Login = () => {
   const [data, setData] = useState<any[]>([]);
   const [login, setLogin] = useState<null | any>(null);
@@ -16,6 +23,13 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   console.log(data);
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(prevValue => !prevValue);
+  };
+
   useEffect(() => {
     fetchData();
     const getLoginFromLocalStorage = async () => {
@@ -91,12 +105,11 @@ const Login = () => {
 
   return (
     <>
+      <InternetConnectionComponent />
       <View style={styles.container}>
         <View style={[IndexStyle.RowFlexCenter, {marginLeft: -25}]}>
           <Image
-            source={{
-              uri: 'https://cdn.discordapp.com/attachments/466314747281801228/826045575220559913/unknown.png',
-            }}
+            source={require('../../../public/images/ASALogo.png')}
             style={{width: 30, height: 50, marginTop: 5}}
           />
           <View style={{alignItems: 'center'}}>
@@ -122,14 +135,23 @@ const Login = () => {
           placeholder="Введіть телефон..."
           placeholderTextColor="#ADB0BD"
         />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.input}
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Введіть пароль..."
-          placeholderTextColor="#ADB0BD"
-        />
+        <View style={IndexStyle.RowFlexCenter}>
+          <TextInput
+            keyboardType="numeric"
+            style={[styles.input, {width: '89%'}]}
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Введіть пароль..."
+            placeholderTextColor="#ADB0BD"
+            secureTextEntry={!isPasswordVisible}
+          />
+          <TouchableOpacity onPress={togglePasswordVisibility}>
+            <Image
+              source={require('../../../public/images/hide.png')}
+              style={{width: 30, height: 30, marginTop: 17, marginLeft: 7}}
+            />
+          </TouchableOpacity>
+        </View>
         <View style={IndexStyle.Br} />
         <Button
           color="#BB86FC"

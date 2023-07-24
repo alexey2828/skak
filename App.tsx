@@ -1,17 +1,23 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from './src/infrastucture/login/login';
-import IncomingControl from './src/domains/projectile-and-mine/forms/incoming-control';
-import TotalBodyWeight from './src/domains/projectile-and-mine/forms/total-body-weight';
-import DdWeight from './src/domains/projectile-and-mine/forms/dd-weight';
-import CurbWeight from './src/domains/projectile-and-mine/forms/curb-weight';
+import IncomingControl from './src/domains/projectile-and-mine-120/forms/incoming-control';
+import TotalBodyWeight from './src/domains/projectile-and-mine-120/forms/total-body-weight';
+import DdWeight from './src/domains/projectile-and-mine-120/forms/dd-weight';
+import CurbWeight from './src/domains/projectile-and-mine-120/forms/curb-weight';
 import Main from './src/infrastucture/scanner/main';
-import ProductDeatils from './src/domains/projectile-and-mine/forms/product-details';
-import EliminationOfDefect from './src/domains/projectile-and-mine/forms/elimination-of-defect';
+import ProductDeatils from './src/domains/projectile-and-mine-120/forms/product-details';
+import EliminationOfDefect from './src/domains/projectile-and-mine-120/forms/elimination-of-defect';
+import IncomingControl122 from './src/domains/projectile-and-mine-122/forms/incoming-control';
+import TotalBodyWeight122 from './src/domains/projectile-and-mine-122/forms/total-body-weight';
+import DdWeight122 from './src/domains/projectile-and-mine-122/forms/dd-weight';
+import CurbWeight122 from './src/domains/projectile-and-mine-122/forms/curb-weight';
+import ProductDeatils122 from './src/domains/projectile-and-mine-122/forms/product-details';
+import EliminationOfDefect122 from './src/domains/projectile-and-mine-122/forms/elimination-of-defect';
 import {WithSplashScreen} from './SplashScreen';
 import {Header} from './src/ui/components/header/header';
-import { ROUTES } from './src/const/routes';
+import {ROUTES} from './src/const/routes';
 
 const App = () => {
   const Stack = createStackNavigator();
@@ -73,6 +79,36 @@ const App = () => {
           <Stack.Screen
             name={ROUTES.EliminationOfDefect}
             component={EliminationOfDefect}
+            options={headerStyles}
+          />
+          <Stack.Screen
+            name={ROUTES.IncomingControl122}
+            component={IncomingControl122}
+            options={headerStyles}
+          />
+          <Stack.Screen
+            name={ROUTES.TotalBodyWeight122}
+            component={TotalBodyWeight122}
+            options={headerStyles}
+          />
+          <Stack.Screen
+            name={ROUTES.DdWeight122}
+            component={DdWeight122}
+            options={headerStyles}
+          />
+          <Stack.Screen
+            name={ROUTES.CurbWeight122}
+            component={CurbWeight122}
+            options={headerStyles}
+          />
+          <Stack.Screen
+            name={ROUTES.ProductDeatils122}
+            component={ProductDeatils122}
+            options={headerStyles}
+          />
+          <Stack.Screen
+            name={ROUTES.EliminationOfDefect122}
+            component={EliminationOfDefect122}
             options={headerStyles}
           />
         </Stack.Navigator>
