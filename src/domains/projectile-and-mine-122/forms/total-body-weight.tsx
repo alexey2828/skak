@@ -36,18 +36,18 @@ const TotalBodyWeight122: React.FC<RouteProps> = ({route}) => {
   const {detailNumber, barcodeData} = route.params;
   const {msgFromServer, mqttError, updateResponse} = useMqtt<any>();
   const jsonFromServer = JSON.parse(msgFromServer);
-//const [value, setValue] = useState(Math.random() * (16.0 - 12.0) + 12.0);
-//
-//useEffect(() => {
-//  const intervalId = setInterval(() => {
-//    setValue(Math.random() * (16.0 - 12.0) + 12.0);
-//  }, 1000);
-//
-//  return () => {
-//    clearInterval(intervalId);
-//  };
-//}, []);
-//const jsonFromServer = {M2: value};
+  //const [value, setValue] = useState(Math.random() * (16.0 - 12.0) + 12.0);
+  //
+  //useEffect(() => {
+  //  const intervalId = setInterval(() => {
+  //    setValue(Math.random() * (16.0 - 12.0) + 12.0);
+  //  }, 1000);
+  //
+  //  return () => {
+  //    clearInterval(intervalId);
+  //  };
+  //}, []);
+  //const jsonFromServer = {M2: value};
   const [filteredData, setFilteredData] = useState([]);
   const batch = barcodeData.substring(9, 11);
   const batchYear = barcodeData.substring(11, 13);
@@ -187,19 +187,31 @@ const TotalBodyWeight122: React.FC<RouteProps> = ({route}) => {
   }, [filteredData]);
 
   useEffect(() => {
-    if (totalBodyWeight) {
+    if (totalBodyWeightFixed) {
       const vVWeightCalculate =
-        Number(totalBodyWeight) - weightEemptyBodyWithoutGlass;
-      setVVWeight(Number(vVWeightCalculate.toFixed(3)));
+        Number(totalBodyWeightFixed) - weightEemptyBodyWithoutGlass;
+      setVVWeight(Number(vVWeightCalculate));
+      //setVVWeightFixed(Number(vVWeightCalculate));
     }
-  }, [weightEemptyBodyWithoutGlass, totalBodyWeight]);
+  }, [weightEemptyBodyWithoutGlass, totalBodyWeightFixed, totalBodyWeight, vVWeight]);
 
   useEffect(() => {
     if (chamberV && vVWeight) {
-      const densityVVCalculate = (Number(vVWeight) * 1000) / chamberV;
-      setDensityVV(Number(densityVVCalculate.toFixed(3)));
+      const densityVVCalculate = (vVWeight * 1000) / chamberV;
+      setDensityVV(densityVVCalculate);
+      //setDensityVVFixed(Number(densityVVCalculate));
     }
-  }, [totalBodyWeight]);
+  
+  //console.log(totalBodyWeight, '-', weightEemptyBodyWithoutGlass, '=', totalBodyWeight - weightEemptyBodyWithoutGlass);
+  //console.log(vVWeight ? vVWeight : 0, '*', '1000', '/', chamberV, '=', ((vVWeight ? vVWeight : 0)*1000)/chamberV);
+  }, [totalBodyWeightFixed, chamberV, vVWeight]);
+
+  useEffect(() => {
+    //console.log(vVWeightFixed);
+    //console.log(densityVVFixed);
+    setVVWeightFixed(vVWeight);
+    setDensityVVFixed(densityVV);
+  }, [vVWeight, densityVV, totalBodyWeightFixed, curbWeightFixed]);
 
   useEffect(() => {
     const loadLoginFromLocalStorage = async () => {
@@ -233,7 +245,7 @@ const TotalBodyWeight122: React.FC<RouteProps> = ({route}) => {
   }, [isCurbWeightFocused]);
 
   const [isTotalBodyWeightFocused, setIsTotalBodyWeightFocused] =
-    useState(false);
+    useState(true);
   const [isCurbWeightFocused, setIsCurbWeightFocused] = useState(false);
 
   console.log(totalBodyWeightFixed);
@@ -274,19 +286,20 @@ const TotalBodyWeight122: React.FC<RouteProps> = ({route}) => {
                     setTotalBodyWeightFixed(
                       jsonFromServer.M2 ? jsonFromServer.M2.toFixed(3) : null,
                     );
+                    setIsTotalBodyWeightFocused(false); // remove focus
+                    setIsCurbWeightFocused(true); // set focus to the next field
                   } else if (isCurbWeightFocused) {
                     setCurbWeightFixed(
                       jsonFromServer.M2 ? jsonFromServer.M2.toFixed(3) : null,
                     );
+                    setIsCurbWeightFocused(false); // remove focus after value has been set
                   }
-                  !totalBodyWeightFixed && !jsonFromServer.M2
-                    ? setTotalBodyWeightFixed(totalBodyWeight)
-                    : null;
-                  !curbWeightFixed && !jsonFromServer.M2
-                    ? setCurbWeightFixed(curbWeight)
-                    : null;
-                  setVVWeightFixed(vVWeight);
-                  setDensityVVFixed(densityVV);
+                  if (!totalBodyWeightFixed && !jsonFromServer.M2) {
+                    setTotalBodyWeightFixed(totalBodyWeight);
+                  }
+                  if (!curbWeightFixed && !jsonFromServer.M2) {
+                    setCurbWeightFixed(curbWeight);
+                  }
                 }}>
                 <Image
                   source={require('../../../../public/images/bx-pin.svg.png')}

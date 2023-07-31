@@ -37,35 +37,22 @@ const EliminationOfDefect122: React.FC<RouteProps> = ({route}) => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [login, setLogin] = useState('');
   const [checkGlassThread, setCheckGlassThread] = useState(false);
-  const [checkStabilizerTubeDiameter, setCheckStabilizerTubeDiameter] =
-    useState(false);
-  const [checkConditionStabilizerWings, setCheckConditionStabilizerWings] =
-    useState(false);
-  const [checkStabilizerTubeGluten, setCheckStabilizerTubeGluten] =
-    useState(false);
-  const [checkStabilizerWingBeating, setCheckStabilizerWingBeating] =
-    useState(false);
-  const [checkAlignment, setCheckAlignment] = useState(false);
-  const [stabilizerWingBeatСontrol, setStabilizerWingBeatСontrol] =
-    useState(false);
+  const [checkHousingRing3, setCheckHousingRing3] = useState(false);
+  const [checkHousingRing4, setCheckHousingRing4] = useState(false);
   const [state, setState] = useState(true);
 
   const submitForm = async () => {
     try {
       const requestEditData = {
         serverUrl: URLS.SERVER_URL,
-        urlParam: URL_PARAMS.DB_EDIT_STATE,
+        urlParam: URL_PARAMS.DB_EDIT_STATE_122,
         state: String(state),
         detailNumber: detailNumber,
         batch: batch,
         batchYear: batchYear,
         checkGlassThread: String(checkGlassThread),
-        checkConditionStabilizerWings: String(checkConditionStabilizerWings),
-        checkStabilizerTubeDiameter: String(checkStabilizerTubeDiameter),
-        checkStabilizerTubeGluten: String(checkStabilizerTubeGluten),
-        checkStabilizerWingBeating: String(checkStabilizerWingBeating),
-        checkAlignment: String(checkAlignment),
-        stabilizerWingBeatControl: String(stabilizerWingBeatСontrol),
+        checkHousingRing3: String(checkHousingRing3),
+        checkHousingRing4: String(checkHousingRing4),
         //operationType: 0,
       };
 
@@ -100,50 +87,21 @@ const EliminationOfDefect122: React.FC<RouteProps> = ({route}) => {
       case 'checkGlassThread':
         setCheckGlassThread(value);
         break;
-      case 'checkStabilizerTubeDiameter':
-        setCheckStabilizerTubeDiameter(value);
+      case 'checkHousingRing3':
+        setCheckHousingRing3(value);
         break;
-      case 'checkConditionStabilizerWings':
-        setCheckConditionStabilizerWings(value);
-        break;
-      case 'checkStabilizerTubeGluten':
-        setCheckStabilizerTubeGluten(value);
-        break;
-      case 'checkStabilizerWingBeating':
-        setCheckStabilizerWingBeating(value);
-        break;
-      case 'checkAlignment':
-        setCheckAlignment(value);
-        break;
-      case 'stabilizerWingBeatСontrol':
-        setStabilizerWingBeatСontrol(value);
-        break;
-      default:
+      case 'checkHousingRing4':
+        setCheckHousingRing4(value);
         break;
     }
   };
 
   useEffect(() => {
     setState(
-      checkGlassThread &&
-        checkStabilizerWingBeating &&
-        checkStabilizerTubeDiameter &&
-        checkConditionStabilizerWings &&
-        checkStabilizerTubeGluten &&
-        checkAlignment
-        ? true
-        : false,
+      checkGlassThread && checkHousingRing3 && checkHousingRing4 ? true : false,
     );
     // eslint-disable-next-line no-sparse-arrays
-  }, [
-    ,
-    checkGlassThread,
-    checkStabilizerWingBeating,
-    checkStabilizerTubeDiameter,
-    checkConditionStabilizerWings,
-    checkStabilizerTubeGluten,
-    checkAlignment,
-  ]);
+  }, [, checkGlassThread, checkHousingRing3, checkHousingRing4]);
 
   useEffect(() => {
     const loadLoginFromLocalStorage = async () => {
@@ -218,76 +176,7 @@ const EliminationOfDefect122: React.FC<RouteProps> = ({route}) => {
             <View style={styles.checkboxContainer}>
               <TouchableOpacity
                 onPress={() =>
-                  handleCheckBoxChange(
-                    'checkStabilizerTubeDiameter',
-                    !checkStabilizerTubeDiameter,
-                  )
-                }>
-                <View style={{width: 250}}>
-                  <Text style={IndexStyle.BottomTitle}>
-                    {PROJECTILE_AND_MINE_TITLES.CHECK_STABILIZER_TUBE_DIAMETER}:{' '}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <Switch
-                value={checkStabilizerTubeDiameter}
-                onValueChange={value =>
-                  handleCheckBoxChange('checkStabilizerTubeDiameter', value)
-                }
-              />
-            </View>
-            <View style={styles.checkboxContainer}>
-              <TouchableOpacity
-                onPress={() =>
-                  handleCheckBoxChange(
-                    'checkConditionStabilizerWings',
-                    !checkConditionStabilizerWings,
-                  )
-                }>
-                <View style={{width: 250}}>
-                  <Text style={IndexStyle.BottomTitle}>
-                    {
-                      PROJECTILE_AND_MINE_TITLES.CHECK_CONDITION_STABILIZER_WINGS
-                    }
-                    :{' '}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <Switch
-                value={checkConditionStabilizerWings}
-                onValueChange={value =>
-                  handleCheckBoxChange('checkConditionStabilizerWings', value)
-                }
-              />
-            </View>
-            <View style={styles.checkboxContainer}>
-              <TouchableOpacity
-                onPress={() =>
-                  handleCheckBoxChange(
-                    'checkStabilizerTubeGluten',
-                    !checkStabilizerTubeGluten,
-                  )
-                }>
-                <View style={{width: 250}}>
-                  <Text style={IndexStyle.BottomTitle}>
-                    {PROJECTILE_AND_MINE_TITLES.CHECK_STABILIZER_TUBE_GLUTEN}:{' '}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <Switch
-                value={checkStabilizerTubeGluten}
-                onValueChange={value =>
-                  handleCheckBoxChange('checkStabilizerTubeGluten', value)
-                }
-              />
-            </View>
-            <View style={styles.checkboxContainer}>
-              <TouchableOpacity
-                onPress={() =>
-                  handleCheckBoxChange(
-                    'checkStabilizerWingBeating',
-                    !checkStabilizerWingBeating,
-                  )
+                  handleCheckBoxChange('checkHousingRing3', !checkHousingRing3)
                 }>
                 <View style={{width: 250}}>
                   <Text style={IndexStyle.BottomTitle}>
@@ -296,16 +185,16 @@ const EliminationOfDefect122: React.FC<RouteProps> = ({route}) => {
                 </View>
               </TouchableOpacity>
               <Switch
-                value={checkStabilizerWingBeating}
+                value={checkHousingRing3}
                 onValueChange={value =>
-                  handleCheckBoxChange('checkStabilizerWingBeating', value)
+                  handleCheckBoxChange('checkHousingRing3', value)
                 }
               />
             </View>
             <View style={styles.checkboxContainer}>
               <TouchableOpacity
                 onPress={() =>
-                  handleCheckBoxChange('checkAlignment', !checkAlignment)
+                  handleCheckBoxChange('checkHousingRing4', !checkHousingRing4)
                 }>
                 <View style={{width: 250}}>
                   <Text style={IndexStyle.BottomTitle}>
@@ -314,9 +203,9 @@ const EliminationOfDefect122: React.FC<RouteProps> = ({route}) => {
                 </View>
               </TouchableOpacity>
               <Switch
-                value={checkAlignment}
+                value={checkHousingRing4}
                 onValueChange={value =>
-                  handleCheckBoxChange('checkAlignment', value)
+                  handleCheckBoxChange('checkHousingRing4', value)
                 }
               />
             </View>
@@ -336,6 +225,16 @@ const EliminationOfDefect122: React.FC<RouteProps> = ({route}) => {
           </View>
           <View style={IndexStyle.Br} />
         </ScrollView>
+        <Button
+          color="#BB86FC"
+          title="Вибрати все"
+          onPress={() => {
+            handleCheckBoxChange('checkGlassThread', true);
+            handleCheckBoxChange('checkHousingRing3', true);
+            handleCheckBoxChange('checkHousingRing4', true);
+          }}
+        />
+        <View style={IndexStyle.Br} />
         <Button
           color="#BB86FC"
           title={MAIN_TITLES.SAVE}

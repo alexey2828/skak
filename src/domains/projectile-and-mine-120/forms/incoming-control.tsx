@@ -135,6 +135,17 @@ const IncomingControl: React.FC<RouteProps> = ({route}) => {
         caliber: caliber,
         productType: productType,
         waterTemperature: waterTemperature.actualWaterTemperature,
+        weightEemptyBodyWithoutGlassValidate: weightValidate(
+          Number(weightEemptyBodyWithoutGlassFixed),
+          13.15,
+          13.85,
+        )
+          ? weightValidate(
+              Number(weightEemptyBodyWithoutGlassFixed),
+              13.15,
+              13.85,
+            )
+          : 'У межах норми',
       };
 
       const requestDataUserOperation = {
@@ -211,7 +222,8 @@ const IncomingControl: React.FC<RouteProps> = ({route}) => {
         checkStabilizerTubeDiameter &&
         checkConditionStabilizerWings &&
         checkStabilizerTubeGluten &&
-        checkAlignment
+        checkAlignment &&
+        !weightValidate(Number(weightEemptyBodyWithoutGlassFixed), 13.15, 13.85)
         ? true
         : false,
     );
@@ -223,6 +235,7 @@ const IncomingControl: React.FC<RouteProps> = ({route}) => {
     checkConditionStabilizerWings,
     checkStabilizerTubeGluten,
     checkAlignment,
+    weightEemptyBodyWithoutGlassFixed,
   ]);
 
   useEffect(() => {
@@ -258,7 +271,9 @@ const IncomingControl: React.FC<RouteProps> = ({route}) => {
   //    jsonFromServer.M1 ? jsonFromServer.M1.toFixed(3) : null,
   //  );
   //}, [jsonFromServer.M1]);
-
+  console.log(
+    weightValidate(Number(weightEemptyBodyWithoutGlassFixed), 13.15, 13.85),
+  );
   return (
     <>
       <View style={[styles.container, {marginTop: -30}]}>
@@ -459,137 +474,141 @@ const IncomingControl: React.FC<RouteProps> = ({route}) => {
           <View style={IndexStyle.Br} />
         </ScrollView>
       </View>
-
+      {/*TODO отмечать все сразу по нажатию на 1 кнопку и так же в окне вывода из дефекта*/}
       <Modal
         visible={modalVisible}
         animationType="slide"
         transparent={true}
         onRequestClose={() => setModalVisible(false)}>
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>
-            {PROJECTILE_AND_MINE_TITLES.CHECK}
-          </Text>
-          <View style={styles.checkboxContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                handleCheckBoxChange('checkGlassThread', !checkGlassThread)
-              }>
-              <View style={{width: 250}}>
-                <Text style={IndexStyle.BottomTitle}>
-                  {PROJECTILE_AND_MINE_TITLES.CHECK_GLASS_THREAD}:{' '}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <Switch
-              value={checkGlassThread}
-              onValueChange={value =>
-                handleCheckBoxChange('checkGlassThread', value)
-              }
-            />
-          </View>
-          <View style={styles.checkboxContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                handleCheckBoxChange(
-                  'checkStabilizerTubeDiameter',
-                  !checkStabilizerTubeDiameter,
-                )
-              }>
-              <View style={{width: 250}}>
-                <Text style={IndexStyle.BottomTitle}>
-                  {PROJECTILE_AND_MINE_TITLES.CHECK_STABILIZER_TUBE_DIAMETER}:{' '}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <Switch
-              value={checkStabilizerTubeDiameter}
-              onValueChange={value =>
-                handleCheckBoxChange('checkStabilizerTubeDiameter', value)
-              }
-            />
-          </View>
-          <View style={styles.checkboxContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                handleCheckBoxChange(
-                  'checkConditionStabilizerWings',
-                  !checkConditionStabilizerWings,
-                )
-              }>
-              <View style={{width: 250}}>
-                <Text style={IndexStyle.BottomTitle}>
-                  {PROJECTILE_AND_MINE_TITLES.CHECK_CONDITION_STABILIZER_WINGS}:{' '}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <Switch
-              value={checkConditionStabilizerWings}
-              onValueChange={value =>
-                handleCheckBoxChange('checkConditionStabilizerWings', value)
-              }
-            />
-          </View>
-          <View style={styles.checkboxContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                handleCheckBoxChange(
-                  'checkStabilizerTubeGluten',
-                  !checkStabilizerTubeGluten,
-                )
-              }>
-              <View style={{width: 250}}>
-                <Text style={IndexStyle.BottomTitle}>
-                  {PROJECTILE_AND_MINE_TITLES.CHECK_STABILIZER_TUBE_GLUTEN}:{' '}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <Switch
-              value={checkStabilizerTubeGluten}
-              onValueChange={value =>
-                handleCheckBoxChange('checkStabilizerTubeGluten', value)
-              }
-            />
-          </View>
-          <View style={styles.checkboxContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                handleCheckBoxChange(
-                  'checkStabilizerWingBeating',
-                  !checkStabilizerWingBeating,
-                )
-              }>
-              <View style={{width: 250}}>
-                <Text style={IndexStyle.BottomTitle}>
-                  {PROJECTILE_AND_MINE_TITLES.STABILIZER_WINGS_BEAT_CONTROL}:{' '}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <Switch
-              value={checkStabilizerWingBeating}
-              onValueChange={value =>
-                handleCheckBoxChange('checkStabilizerWingBeating', value)
-              }
-            />
-          </View>
-          <View style={styles.checkboxContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                handleCheckBoxChange('checkAlignment', !checkAlignment)
-              }>
-              <View style={{width: 250}}>
-                <Text style={IndexStyle.BottomTitle}>
-                  {PROJECTILE_AND_MINE_TITLES.CHECK_ALIGNMENT}:{' '}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <Switch
-              value={checkAlignment}
-              onValueChange={value =>
-                handleCheckBoxChange('checkAlignment', value)
-              }
-            />
-          </View>
-          {/*<View style={styles.checkboxContainer}>
+        <ScrollView>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>
+              {PROJECTILE_AND_MINE_TITLES.CHECK}
+            </Text>
+            <View style={styles.checkboxContainer}>
+              <TouchableOpacity
+                onPress={() =>
+                  handleCheckBoxChange('checkGlassThread', !checkGlassThread)
+                }>
+                <View style={{width: 250}}>
+                  <Text style={IndexStyle.BottomTitle}>
+                    {PROJECTILE_AND_MINE_TITLES.CHECK_GLASS_THREAD}:{' '}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <Switch
+                value={checkGlassThread}
+                onValueChange={value =>
+                  handleCheckBoxChange('checkGlassThread', value)
+                }
+              />
+            </View>
+            <View style={styles.checkboxContainer}>
+              <TouchableOpacity
+                onPress={() =>
+                  handleCheckBoxChange(
+                    'checkStabilizerTubeDiameter',
+                    !checkStabilizerTubeDiameter,
+                  )
+                }>
+                <View style={{width: 250}}>
+                  <Text style={IndexStyle.BottomTitle}>
+                    {PROJECTILE_AND_MINE_TITLES.CHECK_STABILIZER_TUBE_DIAMETER}:{' '}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <Switch
+                value={checkStabilizerTubeDiameter}
+                onValueChange={value =>
+                  handleCheckBoxChange('checkStabilizerTubeDiameter', value)
+                }
+              />
+            </View>
+            <View style={styles.checkboxContainer}>
+              <TouchableOpacity
+                onPress={() =>
+                  handleCheckBoxChange(
+                    'checkConditionStabilizerWings',
+                    !checkConditionStabilizerWings,
+                  )
+                }>
+                <View style={{width: 250}}>
+                  <Text style={IndexStyle.BottomTitle}>
+                    {
+                      PROJECTILE_AND_MINE_TITLES.CHECK_CONDITION_STABILIZER_WINGS
+                    }
+                    :{' '}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <Switch
+                value={checkConditionStabilizerWings}
+                onValueChange={value =>
+                  handleCheckBoxChange('checkConditionStabilizerWings', value)
+                }
+              />
+            </View>
+            <View style={styles.checkboxContainer}>
+              <TouchableOpacity
+                onPress={() =>
+                  handleCheckBoxChange(
+                    'checkStabilizerTubeGluten',
+                    !checkStabilizerTubeGluten,
+                  )
+                }>
+                <View style={{width: 250}}>
+                  <Text style={IndexStyle.BottomTitle}>
+                    {PROJECTILE_AND_MINE_TITLES.CHECK_STABILIZER_TUBE_GLUTEN}:{' '}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <Switch
+                value={checkStabilizerTubeGluten}
+                onValueChange={value =>
+                  handleCheckBoxChange('checkStabilizerTubeGluten', value)
+                }
+              />
+            </View>
+            <View style={styles.checkboxContainer}>
+              <TouchableOpacity
+                onPress={() =>
+                  handleCheckBoxChange(
+                    'checkStabilizerWingBeating',
+                    !checkStabilizerWingBeating,
+                  )
+                }>
+                <View style={{width: 250}}>
+                  <Text style={IndexStyle.BottomTitle}>
+                    {PROJECTILE_AND_MINE_TITLES.STABILIZER_WINGS_BEAT_CONTROL}:{' '}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <Switch
+                value={checkStabilizerWingBeating}
+                onValueChange={value =>
+                  handleCheckBoxChange('checkStabilizerWingBeating', value)
+                }
+              />
+            </View>
+            <View style={styles.checkboxContainer}>
+              <TouchableOpacity
+                onPress={() =>
+                  handleCheckBoxChange('checkAlignment', !checkAlignment)
+                }>
+                <View style={{width: 250}}>
+                  <Text style={IndexStyle.BottomTitle}>
+                    {PROJECTILE_AND_MINE_TITLES.CHECK_ALIGNMENT}:{' '}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <Switch
+                value={checkAlignment}
+                onValueChange={value =>
+                  handleCheckBoxChange('checkAlignment', value)
+                }
+              />
+            </View>
+            {/*<View style={styles.checkboxContainer}>
             <View style={{width: 250}}>
               <Text style={IndexStyle.BottomTitle}>
                 {PROJECTILE_AND_MINE_TITLES.STABILIZER_WINGS_BEAT_CONTROL}:{' '}
@@ -602,14 +621,29 @@ const IncomingControl: React.FC<RouteProps> = ({route}) => {
               }
             />
           </View>*/}
-          <View style={IndexStyle.Br} />
-          <View style={IndexStyle.Br} />
-          <Button
-            color="#BB86FC"
-            title={MAIN_TITLES.SAVE_AND_BACK}
-            onPress={() => setModalVisible(false)}
-          />
-        </View>
+            <View style={IndexStyle.Br} />
+            <View style={IndexStyle.Br} />
+            <Button
+              color="#BB86FC"
+              title="Вибрати все"
+              onPress={() => {
+                handleCheckBoxChange('checkGlassThread', true);
+                handleCheckBoxChange('checkStabilizerTubeDiameter', true);
+                handleCheckBoxChange('checkConditionStabilizerWings', true);
+                handleCheckBoxChange('checkStabilizerTubeGluten', true);
+                handleCheckBoxChange('checkStabilizerWingBeating', true);
+                handleCheckBoxChange('checkAlignment', true);
+                handleCheckBoxChange('stabilizerWingBeatСontrol', true);
+              }}
+            />
+            <View style={IndexStyle.Br} />
+            <Button
+              color="#BB86FC"
+              title={MAIN_TITLES.SAVE_AND_BACK}
+              onPress={() => setModalVisible(false)}
+            />
+          </View>
+        </ScrollView>
       </Modal>
 
       <Modal

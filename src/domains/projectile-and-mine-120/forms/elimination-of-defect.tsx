@@ -338,6 +338,21 @@ const EliminationOfDefect: React.FC<RouteProps> = ({route}) => {
         </ScrollView>
         <Button
           color="#BB86FC"
+          title="Вибрати все"
+          onPress={() => {
+            handleCheckBoxChange('checkGlassThread', true);
+            handleCheckBoxChange('checkStabilizerTubeDiameter', true);
+            handleCheckBoxChange('checkConditionStabilizerWings', true);
+            handleCheckBoxChange('checkStabilizerTubeGluten', true);
+            handleCheckBoxChange('checkStabilizerWingBeating', true);
+            handleCheckBoxChange('checkAlignment', true);
+            handleCheckBoxChange('isWater', true);
+            handleCheckBoxChange('stabilizerWingBeatСontrol', true);
+          }}
+        />
+        <View style={IndexStyle.Br} />
+        <Button
+          color="#BB86FC"
           title={MAIN_TITLES.SAVE}
           onPress={submitForm}
           disabled={detailNumber === '' || batch === ''}
